@@ -1,0 +1,12 @@
+{
+    "require": {
+        "team-reflex/discord-php": "^5.0",
+        "illuminate/support": "^8.9",
+        "vlucas/phpdotenv": "^5.2"
+    },
+    "autoload":{
+        "psr-4":{
+            "App\\": "src/"
+        }
+    }
+}
