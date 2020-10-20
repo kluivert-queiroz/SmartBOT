@@ -1,7 +1,8 @@
 <?php
 namespace App;
 use Discord\DiscordCommandClient;
-
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
 class Application
 {
     protected $rootPath;
@@ -12,6 +13,13 @@ class Application
      * @var \Discord\DiscordCommandClient 
      */
     protected $discord;
+
+    /**
+     * Logger
+     *
+     * @var Monolog\Logger
+     */
+    protected $logger;
     public function __construct()
     {
         $this->rootPath = BASEPATH ."/";
@@ -44,14 +52,33 @@ class Application
      */
     public function getDiscord()
     {
-        if(!$this->discord)
+        if(!$this->discord) {
             $this->discord = new DiscordCommandClient(
                 [
                     'token'         => $_ENV["BOT_TOKEN"],
                     'prefix'        => $this->prefix,
-                    'description'   => "Apenas um BOT"
+                    'description'   => "Apenas um BOT",
+                    'discordOptions' => [
+                        'logger'    => $this->getLogger(),
+                    ]
                 ]
             );
+        }
         return $this->discord;
+    }
+    /**
+     * Get actual logger
+     *
+     * @return Monolog\Logger
+     */
+    public function getLogger()
+    {
+        if(!$this->logger) {
+            $this->logger = new Logger('bot');
+            $this->logger->pushHandler(
+                new StreamHandler(BASEPATH . "/storage/log.log", Logger::INFO)
+            );
+        }
+        return $this->logger;
     }
 }
