@@ -1,8 +1,8 @@
 {
     "require": {
-        "team-reflex/discord-php": "^5.0",
         "illuminate/support": "^8.9",
-        "vlucas/phpdotenv": "^5.2"
+        "vlucas/phpdotenv": "^5.2",
+        "team-reflex/discord-php": "^5.0.11"
     },
     "autoload":{
         "psr-4":{
